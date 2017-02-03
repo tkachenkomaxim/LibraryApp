@@ -5,13 +5,15 @@ namespace LibraryApp
 {
     class Library
     {
-        private List<Book> _library;
+        private List<Publication> _library;
+        private Presenter _presenter;
 
         public Library()
         {
-            _library = new List<Book>();
+            _presenter = new Presenter();
+            _library = new List<Publication>();
             CreateLibrary();
-            Presenter.ShowLibrary(_library);
+            _presenter.ShowLibrary(_library);
         }
 
         private void CreateLibrary()
@@ -22,6 +24,14 @@ namespace LibraryApp
             _library.Add(new Book("Jeffrey Richter", "CLR Via C#", Genre.Technical, 2006));
             _library.Add(new Book("Oscar Wilde", "The Picture of Dorian Gray", Genre.Philosophical, 1890));
             _library.Add(new Book("Stephen King", "11/22/63", Genre.Alternative, 2011));
+
+            _library.Add(new Magazine("Esquire", 33, Genre.Fashion, 2017));
+            _library.Add(new Magazine("National Geographic", 208, Genre.Nature, 2017));
+            _library.Add(new Magazine("Business Journal", 11, Genre.Economic, 2017));
+            _library.Add(new Magazine("Ecliva", 107, Genre.Electronic, 2016));
+            _library.Add(new Magazine("ІJECСТ", 71, Genre.Electronic, 2017));
+            _library.Add(new Magazine("J.UCS", 25, Genre.Technical, 2015));
+            
         }
 
     }

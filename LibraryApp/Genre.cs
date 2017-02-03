@@ -15,6 +15,13 @@ namespace LibraryApp
         Crime,
         Technical,
         Philosophical,
-        Alternative
+        Alternative,
+        Economic,
+        Sciense,
+        Auto,
+        Politic,
+        Electronic,
+        Fashion,
+        Nature
     }
 }

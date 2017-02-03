@@ -2,19 +2,13 @@
 
 namespace LibraryApp
 {
-    class Book
+    class Book : Publication
     {
         public string Author { get; set; }
-        public string Title { get; set; }
-        public Genre Genre { get; set; }
-        public int PublicationYear { get; set; }
 
-        public Book(string author, string title, Genre genre, int publicationYear)
+        public Book(string author,string title, Genre genre, int publicationYear) : base(title, genre, publicationYear)
         {
             Author = author;
-            Title = title;
-            Genre = genre;
-            PublicationYear = publicationYear;
         }
     }
 }
