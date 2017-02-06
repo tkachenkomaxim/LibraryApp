@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LibraryApp
 {
     class Book : Publication
     {
-        public string Author { get; set; }
+        public List<string> Authors { get; set; }
 
-        public Book(string author,string title, Genre genre, int publicationYear) : base(title, genre, publicationYear)
+        public Book(string title, Genre genre, int publicationYear, params string[] authors) : base(title, genre, publicationYear)
         {
-            Author = author;
+            Authors = new List<string>();
+            foreach (string author in authors)
+            {
+                Authors.Add(author);
+            }
         }
     }
 }

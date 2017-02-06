@@ -22,6 +22,8 @@ namespace LibraryApp
         Politic,
         Electronic,
         Fashion,
-        Nature
+        Nature,
+        News,
+        Jurisprudence
     }
 }
