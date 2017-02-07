@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace LibraryApp
 {
-    class Newspaper : Publication
+    public class Newspaper : Publication
     {
         public int Number { get; set; }
+
+        public Newspaper() { }
 
         public Newspaper(string title, int number, Genre genre, int publicationYear) : base(title, genre, publicationYear)
         {

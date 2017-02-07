@@ -2,7 +2,7 @@
 
 namespace LibraryApp
 {
-    enum Genre
+    public enum Genre
     {
         Fiction,
         Thriller,

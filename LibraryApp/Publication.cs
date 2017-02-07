@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace LibraryApp
 {
-    abstract class Publication
+    public abstract class Publication
     {
         public string Title { get; set; }
         public Genre Genre { get; set; }
         public int PublicationYear { get; set; }
+
+        public Publication() { }
 
         protected Publication(string title, Genre genre, int publicationYear)
         {

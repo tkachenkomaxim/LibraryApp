@@ -34,14 +34,14 @@ namespace LibraryApp
                     form.ShowAllLibraryBox.Text += string.Format("Book title: «{0}» \r\n ", book.Title);
                     if (book.Authors.Count == 1)
                     {
-                        form.ShowAllLibraryBox.Text += string.Format("Author: {0} \r\n", book.Authors[0]);
+                        form.ShowAllLibraryBox.Text += string.Format("Author: {0} \r\n", book.Authors[0].Name);
                     }
                     if(book.Authors.Count > 1)
                     {
-                        string authors = string.Format("Authors: {0}",book.Authors[0]);
+                        string authors = string.Format("Authors: {0}",book.Authors[0].Name);
                         for (int i = 1; i < book.Authors.Count; i++)
                         {
-                            authors += ", " + book.Authors[i];
+                            authors += ", " + book.Authors[i].Name;
                         }
                         authors += "\r\n";
                         form.ShowAllLibraryBox.Text += authors;

@@ -48,9 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Author.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="Genre.cs" />
     <Compile Include="Library.cs" />
+    <Compile Include="ListOfAuthors.cs" />
     <Compile Include="Magazine.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

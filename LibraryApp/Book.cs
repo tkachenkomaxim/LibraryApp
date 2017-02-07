@@ -1,18 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace LibraryApp
 {
-    class Book : Publication
+    public class Book : Publication
     {
-        public List<string> Authors { get; set; }
+        public List<Author> Authors { get; set; }
+
+        public Book() { }
 
         public Book(string title, Genre genre, int publicationYear, params string[] authors) : base(title, genre, publicationYear)
         {
-            Authors = new List<string>();
-            foreach (string author in authors)
+            Authors = new List<Author>();
+            foreach (string name in authors)
             {
-                Authors.Add(author);
+                if (ListOfAuthors.Contains(name))
+                {
+                    Authors.Add(ListOfAuthors.GetAuthor(name));
+                    ListOfAuthors.AddBookFromAuthor(name, this);
+                }
+                if (!ListOfAuthors.Contains(name))
+                {
+                    ListOfAuthors.AddNewAuthor(name, this);
+                    Authors.Add(ListOfAuthors.GetAuthor(name));
+                }
             }
         }
     }

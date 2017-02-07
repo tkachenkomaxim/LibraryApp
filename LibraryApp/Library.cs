@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace LibraryApp
 {
@@ -7,12 +9,15 @@ namespace LibraryApp
     {
         private List<Publication> _library;
         private Presenter _presenter;
+        private XmlSerializer _formatter;
 
         public Library()
         {
             _presenter = new Presenter();
             _library = new List<Publication>();
+            _formatter = new XmlSerializer(typeof(List<Book>));
             CreateLibrary();
+            SaveBooksToXml();
             _presenter.ShowLibrary(_library);
         }
 
@@ -36,8 +41,35 @@ namespace LibraryApp
             _library.Add(new Newspaper("The Guardian", 505, Genre.Politic, 2017));
             _library.Add(new Newspaper("The Washington Post", 1407, Genre.News, 2017));
             _library.Add(new Newspaper("The Independent", 706, Genre.Jurisprudence, 2017));
-
+            
         }
 
+        private void SaveBooksToXml()
+        {
+            List<Book> books = new List<Book>();
+            foreach (Publication item in _library)
+            {
+                if (item is Book)
+                {
+                    books.Add((Book)item);
+                }
+            }
+            using (FileStream fileStream = new FileStream("books.xml", FileMode.Create, FileAccess.Write))
+            {
+                _formatter.Serialize(fileStream, books);
+            }
+        }
+
+        private List<Book> ReadBooksFromXml()
+        {
+            List<Book> books = new List<Book>();
+            using (FileStream fileStream = new FileStream("books.xml", FileMode.Open, FileAccess.Read))
+            {
+              books = _formatter.Deserialize(fileStream) as List<Book>;
+            }
+            return books;
+        }
     }
-}
+
+    }
+
