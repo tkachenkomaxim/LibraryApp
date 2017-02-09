@@ -7,7 +7,6 @@ using System.Xml.Serialization;
 
 namespace LibraryApp
 {
-    [XmlRoot("Magazine")]
     public class Magazine : Publication
     {
         public int IssueNumber { get; set; }

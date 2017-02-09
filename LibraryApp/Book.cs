@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 namespace LibraryApp
 {
     public class Book : Publication
-    {
+    { 
         public List<Author> Authors { get; set; }
 
         public Book() { }
