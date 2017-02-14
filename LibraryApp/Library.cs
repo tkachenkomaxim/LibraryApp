@@ -21,7 +21,9 @@ namespace LibraryApp
             _library = new List<Publication>();
             _formatter = new XmlSerializer(typeof(List<Book>));
             CreateLibrary();
-            SaveLibrary();
+            CreateDatabase();
+            //SaveLibrary();
+            SaveLibraryToDatabase();
             _presenter.ShowLibrary(_library);
         }
 
@@ -68,6 +70,13 @@ namespace LibraryApp
             SaveBooksToXml(GetPublications<Book>());
         }
 
+        private void SaveLibraryToDatabase()
+        {
+            SaveMagazinesToDatabase(GetPublications<Magazine>());
+            SaveBooksToDatabase(GetPublications<Book>());
+            SaveNewspapersToDatabase(GetPublications<Newspaper>());
+        }
+
         private void SaveBooksToXml(List<Book> books)
         {
             using (FileStream fileStream = new FileStream("books.xml", FileMode.Create, FileAccess.Write))
@@ -86,24 +95,6 @@ namespace LibraryApp
             return books;
         }
 
-        private void SaveMagazinesToDatabase(List<Magazine> magazines)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings["LibraryConnection"].ConnectionString;
-            using (_connection = new SqlConnection(connectionString))
-            {
-                _connection.Open();
-                foreach (Magazine magazine in magazines)
-                {
-                    SqlCommand command = new SqlCommand("INSERT INTO Magazines (IssueNumber, Title, Genre, Year) VALUES (@IssueNumber, @Title, @Genre, @Year)", _connection);
-                    command.Parameters.AddWithValue("IssueNumber", magazine.IssueNumber);
-                    command.Parameters.AddWithValue("Title",magazine.Title);
-                    command.Parameters.AddWithValue("Genre",magazine.Genre.ToString());
-                    command.Parameters.AddWithValue("Year",magazine.PublicationYear);
-                    command.ExecuteNonQuery();
-                }
-            } 
-        }
-
         private void SaveNewspapersToTextFile( List<Newspaper> newspapers)
         {
             using (_writer = File.CreateText("Newspapers.txt"))
@@ -117,6 +108,101 @@ namespace LibraryApp
                     _writer.WriteLine();
                 }
             }
+        }
+
+        private void CreateDatabase()
+        {
+            string dbDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
+            if (!Directory.Exists(dbDirectory))
+            {
+                Directory.CreateDirectory(dbDirectory);
+            }
+            string dbName = "library.mdf";
+            string fullDBFilePath = Path.Combine(dbDirectory, dbName);
+            if (!File.Exists(fullDBFilePath))
+            {
+                SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Integrated security=true; ");
+                string command = "CREATE DATABASE Library ON PRIMARY" +
+                      "(NAME = Libraty_data, " +
+                      "FILENAME = '" + fullDBFilePath + "'," +
+                      "SIZE = 2MB, MAXSIZE = 20MB, FILEGROWTH = 10%) ";
+
+                SqlCommand createDBCommand = new SqlCommand(command, connection);
+                connection.Open();
+                createDBCommand.ExecuteNonQuery();
+                connection.Close();
+                CreateTables(fullDBFilePath);
+            }
+            if (File.Exists(fullDBFilePath))
+            {
+                string connectionString = string.Format("Data Source=(LocalDB)\\MSSQLLocalDB; AttachDbFilename='{0}';Integrated Security=True", fullDBFilePath);
+                _connection = new SqlConnection(connectionString);
+            }
+        }
+
+        private void CreateTables(string dbFilePath)
+        {
+            string connectionString = string.Format("Data Source=(LocalDB)\\MSSQLLocalDB; AttachDbFilename='{0}';Integrated Security=True",dbFilePath);
+            _connection = new SqlConnection(connectionString);
+
+            SqlCommand createMagazinescommand = new SqlCommand("CREATE TABLE [dbo].[Magazines] (IssueNumber INT NOT NULL, Title NVARCHAR(50) NOT NULL, Genre NVARCHAR(50) NOT NULL, Year INT NOT NULL)",_connection);
+            SqlCommand createBookscommand = new SqlCommand("CREATE TABLE[dbo].[Books] (Authors NVARCHAR(50) NOT NULL, Title NVARCHAR(50) NOT NULL, Genre NVARCHAR(50) NOT NULL, Year INT NOT NULL)", _connection);
+            SqlCommand createNewspaperscommand = new SqlCommand("CREATE TABLE[dbo].[Newspapers] (Number INT NOT NULL, Title NVARCHAR(50) NOT NULL, Genre NVARCHAR(50) NOT NULL, Year INT NOT NULL)", _connection);
+            _connection.Open();
+            createMagazinescommand.ExecuteNonQuery();
+            createBookscommand.ExecuteNonQuery();
+            createNewspaperscommand.ExecuteNonQuery();
+            _connection.Close();
+        }
+
+        private void SaveMagazinesToDatabase(List<Magazine> magazines)
+        {
+            _connection.Open();
+            foreach (Magazine magazine in magazines)
+            {
+                SqlCommand command = new SqlCommand("INSERT INTO Magazines (IssueNumber, Title, Genre, Year) VALUES (@IssueNumber, @Title, @Genre, @Year)", _connection);
+                command.Parameters.AddWithValue("IssueNumber", magazine.IssueNumber);
+                command.Parameters.AddWithValue("Title", magazine.Title);
+                command.Parameters.AddWithValue("Genre", magazine.Genre.ToString());
+                command.Parameters.AddWithValue("Year", magazine.PublicationYear);
+                command.ExecuteNonQuery();
+            }
+            _connection.Close();
+        }
+
+        private void SaveBooksToDatabase(List<Book> books)
+        {
+            _connection.Open();
+            foreach (Book book in books)
+            {
+                string authors = book.Authors[0].Name;
+                for (int i = 1; i < book.Authors.Count; i++)
+                {
+                    authors += ", " + book.Authors[i].Name;
+                }
+                SqlCommand command = new SqlCommand("INSERT INTO Books (Authors, Title, Genre, Year) VALUES (@Authors, @Title, @Genre, @Year)", _connection);
+                command.Parameters.AddWithValue("Authors", authors);
+                command.Parameters.AddWithValue("Title", book.Title);
+                command.Parameters.AddWithValue("Genre", book.Genre.ToString());
+                command.Parameters.AddWithValue("Year", book.PublicationYear);
+                command.ExecuteNonQuery();
+            }
+            _connection.Close();
+        }
+
+        private void SaveNewspapersToDatabase(List<Newspaper> newspapers)
+        {
+            _connection.Open();
+            foreach (Newspaper newspaper in newspapers)
+            {
+                SqlCommand command = new SqlCommand("INSERT INTO Newspapers (Number, Title, Genre, Year) VALUES (@Number, @Title, @Genre, @Year)", _connection);
+                command.Parameters.AddWithValue("Number", newspaper.Number);
+                command.Parameters.AddWithValue("Title", newspaper.Title);
+                command.Parameters.AddWithValue("Genre", newspaper.Genre.ToString());
+                command.Parameters.AddWithValue("Year", newspaper.PublicationYear);
+                command.ExecuteNonQuery();
+            }
+            _connection.Close();
         }
     }
 
