@@ -7,47 +7,82 @@ using System.Data.SqlClient;
 
 namespace LibraryApp
 {
-    class Library
+    public class Library
     {
         private List<Publication> _library;
         private Presenter _presenter;
         private XmlSerializer _formatter;
-        private SqlConnection _connection;
+        public SqlConnection _connection;
         private StreamWriter _writer;
 
         public Library()
         {
-            _presenter = new Presenter();
+            _presenter = new Presenter(this);
             _library = new List<Publication>();
             _formatter = new XmlSerializer(typeof(List<Book>));
             CreateLibrary();
             CreateDatabase();
             //SaveLibrary();
-            SaveLibraryToDatabase();
-            _presenter.ShowLibrary(_library);
+           // SaveLibraryToDatabase();
+            //_connection.Dispose();
+           _presenter.ShowLibrary(_library);
+        }
+
+        public string GetGenresString(Publication publication)
+        {
+            string genres = publication.Genres[0].ToString();
+            for (int i = 1; i < publication.Genres.Count; i++)
+            {
+                genres += ", " + publication.Genres[i].ToString();
+            }
+            return genres;
+        }
+
+        public string GetAuthorsString(Publication publication)
+        {
+            string authors = "";
+            if (publication.Authors.Count > 0)
+            {
+                authors = publication.Authors[0].Name;
+                for (int i = 1; i < publication.Authors.Count; i++)
+                {
+                    authors += ", " + publication.Authors[i].Name;
+                }
+            }
+            return authors;
+        }
+
+        public List<Genre> GenresBuilder(params Genre[] genre)
+        {
+            List<Genre> genres = new List<Genre>();
+            foreach (Genre item in genre)
+            {
+                genres.Add(item);
+            }
+            return genres;
         }
 
         private void CreateLibrary()
         {
-            _library.Add(new Book("Flowers for Algernon", Genre.Fiction | Genre.Horror | Genre.Fantasy, 1966, "Daniel Keyes"));
-            _library.Add(new Book("To Kill a Mockingbird", Genre.Bildungsroman, 1960, "Harper Lee"));
-            _library.Add(new Book("The Godfather", Genre.Crime, 1969, "Mario Puzo"));
-            _library.Add(new Book("CLR Via C#", Genre.Technical, 2006, "Jeffrey Richter"));
-            _library.Add(new Book("The Picture of Dorian Gray", Genre.Philosophical, 1890, "Oscar Wilde"));
-            _library.Add(new Book("11/22/63", Genre.Alternative, 2011, "Stephen King"));
-            _library.Add(new Book("C# 6.0 in a Nutshell", Genre.Technical, 2016, "Joseph Albahari", "Ben Albahari"));
+            _library.Add(new Book("Flowers for Algernon", GenresBuilder(Genre.Fiction, Genre.Horror , Genre.Fantasy), 1966, "Daniel Keyes"));
+            _library.Add(new Book("To Kill a Mockingbird", GenresBuilder(Genre.Bildungsroman), 1960, "Harper Lee"));
+            _library.Add(new Book("The Godfather", GenresBuilder(Genre.Crime), 1969, "Mario Puzo"));
+            _library.Add(new Book("CLR Via C#", GenresBuilder(Genre.Technical), 2006, "Jeffrey Richter"));
+            _library.Add(new Book("The Picture of Dorian Gray", GenresBuilder(Genre.Philosophical), 1890, "Oscar Wilde"));
+            _library.Add(new Book("11/22/63", GenresBuilder(Genre.Alternative), 2011, "Stephen King"));
+            _library.Add(new Book("C# 6.0 in a Nutshell", GenresBuilder(Genre.Technical), 2016, "Joseph Albahari", "Ben Albahari"));
 
-            _library.Add(new Magazine("Esquire", 33, Genre.Fashion, 2017));
-            _library.Add(new Magazine("National Geographic", 208, Genre.Nature, 2017));
-            _library.Add(new Magazine("Business Journal", 11, Genre.Economic, 2017));
-            _library.Add(new Magazine("Ecliva", 107, Genre.Electronic, 2016));
-            _library.Add(new Magazine("ІJECСТ", 71, Genre.Electronic, 2017));
-            _library.Add(new Magazine("J.UCS", 25, Genre.Technical, 2015));
+            _library.Add(new Magazine("Esquire", 33, GenresBuilder(Genre.Fashion), 2017));
+            _library.Add(new Magazine("National Geographic", 208, GenresBuilder(Genre.Nature), 2017));
+            _library.Add(new Magazine("Business Journal", 11, GenresBuilder(Genre.Economic), 2017));
+            _library.Add(new Magazine("Ecliva", 107, GenresBuilder(Genre.Electronic), 2016));
+            _library.Add(new Magazine("ІJECСТ", 71, GenresBuilder(Genre.Electronic), 2017));
+            _library.Add(new Magazine("J.UCS", 25, GenresBuilder(Genre.Technical), 2015));
 
-            _library.Add(new Newspaper("The Guardian", 505, Genre.Politic, 2017));
-            _library.Add(new Newspaper("The Washington Post", 1407, Genre.News, 2017));
-            _library.Add(new Newspaper("The Independent", 706, Genre.Jurisprudence, 2017));
-            
+            _library.Add(new Newspaper("The Guardian", 505, GenresBuilder(Genre.Politic), 2017));
+            _library.Add(new Newspaper("The Washington Post", 1407, GenresBuilder(Genre.News), 2017));
+            _library.Add(new Newspaper("The Independent", 706, GenresBuilder(Genre.Jurisprudence), 2017));
+
         }
 
         private List<T> GetPublications<T>() where T : Publication
@@ -90,12 +125,12 @@ namespace LibraryApp
             List<Book> books = new List<Book>();
             using (FileStream fileStream = new FileStream("books.xml", FileMode.Open, FileAccess.Read))
             {
-              books = _formatter.Deserialize(fileStream) as List<Book>;
+                books = _formatter.Deserialize(fileStream) as List<Book>;
             }
             return books;
         }
 
-        private void SaveNewspapersToTextFile( List<Newspaper> newspapers)
+        private void SaveNewspapersToTextFile(List<Newspaper> newspapers)
         {
             using (_writer = File.CreateText("Newspapers.txt"))
             {
@@ -103,7 +138,7 @@ namespace LibraryApp
                 {
                     _writer.WriteLine("Newspaper title: «{0}»", newspaper.Title);
                     _writer.WriteLine("Issue number: {0}", newspaper.Number);
-                    _writer.WriteLine("Genre: {0}", newspaper.Genre);
+                    _writer.WriteLine("Genre: {0}", GetGenresString(newspaper));
                     _writer.WriteLine("Year: {0}", newspaper.PublicationYear);
                     _writer.WriteLine();
                 }
@@ -122,8 +157,8 @@ namespace LibraryApp
             if (!File.Exists(fullDBFilePath))
             {
                 SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Integrated security=true; ");
-                string command = "CREATE DATABASE Library ON PRIMARY" +
-                      "(NAME = Libraty_data, " +
+                string command = "CREATE DATABASE Libraryv4 ON PRIMARY" +
+                      "(NAME = Libraty_data1, " +
                       "FILENAME = '" + fullDBFilePath + "'," +
                       "SIZE = 2MB, MAXSIZE = 20MB, FILEGROWTH = 10%) ";
 
@@ -135,6 +170,7 @@ namespace LibraryApp
             }
             if (File.Exists(fullDBFilePath))
             {
+               // CreateTables(fullDBFilePath);
                 string connectionString = string.Format("Data Source=(LocalDB)\\MSSQLLocalDB; AttachDbFilename='{0}';Integrated Security=True", fullDBFilePath);
                 _connection = new SqlConnection(connectionString);
             }
@@ -142,13 +178,13 @@ namespace LibraryApp
 
         private void CreateTables(string dbFilePath)
         {
-            string connectionString = string.Format("Data Source=(LocalDB)\\MSSQLLocalDB; AttachDbFilename='{0}';Integrated Security=True",dbFilePath);
+            string connectionString = string.Format("Data Source=(LocalDB)\\MSSQLLocalDB; AttachDbFilename='{0}';Integrated Security=True", dbFilePath);
             _connection = new SqlConnection(connectionString);
-
-            SqlCommand createMagazinescommand = new SqlCommand("CREATE TABLE [dbo].[Magazines] (IssueNumber INT NOT NULL, Title NVARCHAR(50) NOT NULL, Genre NVARCHAR(50) NOT NULL, Year INT NOT NULL)",_connection);
-            SqlCommand createBookscommand = new SqlCommand("CREATE TABLE[dbo].[Books] (Authors NVARCHAR(50) NOT NULL, Title NVARCHAR(50) NOT NULL, Genre NVARCHAR(50) NOT NULL, Year INT NOT NULL)", _connection);
-            SqlCommand createNewspaperscommand = new SqlCommand("CREATE TABLE[dbo].[Newspapers] (Number INT NOT NULL, Title NVARCHAR(50) NOT NULL, Genre NVARCHAR(50) NOT NULL, Year INT NOT NULL)", _connection);
             _connection.Open();
+            SqlCommand createMagazinescommand = new SqlCommand("CREATE TABLE Magazines (ID int IDENTITY(1,1) PRIMARY KEY, IssueNumber INT NOT NULL, Title NVARCHAR(50) NOT NULL, Genre NVARCHAR(50) NOT NULL, Year INT NOT NULL, Authors NVARCHAR(50) NOT NULL)", _connection);
+            SqlCommand createBookscommand = new SqlCommand("CREATE TABLE Books (ID int IDENTITY(1,1) PRIMARY KEY, Authors NVARCHAR(50) NOT NULL, Title NVARCHAR(50) NOT NULL, Genre NVARCHAR(50) NOT NULL, Year INT NOT NULL)", _connection);
+            SqlCommand createNewspaperscommand = new SqlCommand("CREATE TABLE Newspapers (ID int IDENTITY(1,1) PRIMARY KEY, Number INT NOT NULL, Title NVARCHAR(50) NOT NULL, Genre NVARCHAR(50) NOT NULL, Year INT NOT NULL, Authors NVARCHAR(50) NOT NULL)", _connection);
+
             createMagazinescommand.ExecuteNonQuery();
             createBookscommand.ExecuteNonQuery();
             createNewspaperscommand.ExecuteNonQuery();
@@ -160,11 +196,12 @@ namespace LibraryApp
             _connection.Open();
             foreach (Magazine magazine in magazines)
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Magazines (IssueNumber, Title, Genre, Year) VALUES (@IssueNumber, @Title, @Genre, @Year)", _connection);
+                SqlCommand command = new SqlCommand("INSERT INTO Magazines (IssueNumber, Title, Genre, Year,Authors) VALUES (@IssueNumber, @Title, @Genre, @Year, @Authors)", _connection);
                 command.Parameters.AddWithValue("IssueNumber", magazine.IssueNumber);
                 command.Parameters.AddWithValue("Title", magazine.Title);
-                command.Parameters.AddWithValue("Genre", magazine.Genre.ToString());
+                command.Parameters.AddWithValue("Genre", GetGenresString(magazine));
                 command.Parameters.AddWithValue("Year", magazine.PublicationYear);
+                command.Parameters.AddWithValue("Authors", GetAuthorsString(magazine));
                 command.ExecuteNonQuery();
             }
             _connection.Close();
@@ -175,15 +212,10 @@ namespace LibraryApp
             _connection.Open();
             foreach (Book book in books)
             {
-                string authors = book.Authors[0].Name;
-                for (int i = 1; i < book.Authors.Count; i++)
-                {
-                    authors += ", " + book.Authors[i].Name;
-                }
                 SqlCommand command = new SqlCommand("INSERT INTO Books (Authors, Title, Genre, Year) VALUES (@Authors, @Title, @Genre, @Year)", _connection);
-                command.Parameters.AddWithValue("Authors", authors);
+                command.Parameters.AddWithValue("Authors", GetAuthorsString(book));
                 command.Parameters.AddWithValue("Title", book.Title);
-                command.Parameters.AddWithValue("Genre", book.Genre.ToString());
+                command.Parameters.AddWithValue("Genre", GetGenresString(book));
                 command.Parameters.AddWithValue("Year", book.PublicationYear);
                 command.ExecuteNonQuery();
             }
@@ -195,16 +227,55 @@ namespace LibraryApp
             _connection.Open();
             foreach (Newspaper newspaper in newspapers)
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Newspapers (Number, Title, Genre, Year) VALUES (@Number, @Title, @Genre, @Year)", _connection);
+                SqlCommand command = new SqlCommand("INSERT INTO Newspapers (Number, Title, Genre, Year, Authors) VALUES (@Number, @Title, @Genre, @Year, @Authors)", _connection);
                 command.Parameters.AddWithValue("Number", newspaper.Number);
                 command.Parameters.AddWithValue("Title", newspaper.Title);
-                command.Parameters.AddWithValue("Genre", newspaper.Genre.ToString());
+                command.Parameters.AddWithValue("Genre", GetGenresString(newspaper));
                 command.Parameters.AddWithValue("Year", newspaper.PublicationYear);
+                command.Parameters.AddWithValue("Authors", GetAuthorsString(newspaper));
                 command.ExecuteNonQuery();
             }
             _connection.Close();
         }
+
+        public void AddNewBookToDatabase(Book book)
+        {
+            _connection.Open();
+            SqlCommand command = new SqlCommand("INSERT INTO Books (Authors, Title, Genre, Year) VALUES (@Authors, @Title, @Genre, @Year)", _connection);
+            command.Parameters.AddWithValue("Authors", GetAuthorsString(book));
+            command.Parameters.AddWithValue("Title", book.Title);
+            command.Parameters.AddWithValue("Genre", GetGenresString(book));
+            command.Parameters.AddWithValue("Year", book.PublicationYear);
+            command.ExecuteNonQuery();
+            _connection.Close();
+        }
+        
+        public void AddNewMagazineToDatabase(Magazine magazine)
+        {
+            _connection.Open();
+            SqlCommand command = new SqlCommand("INSERT INTO Magazines (IssueNumber, Title, Genre, Year,Authors) VALUES (@IssueNumber, @Title, @Genre, @Year, @Authors)", _connection);
+            command.Parameters.AddWithValue("IssueNumber", magazine.IssueNumber);
+            command.Parameters.AddWithValue("Title", magazine.Title);
+            command.Parameters.AddWithValue("Genre", GetGenresString(magazine));
+            command.Parameters.AddWithValue("Year", magazine.PublicationYear);
+            command.Parameters.AddWithValue("Authors", GetAuthorsString(magazine));
+            command.ExecuteNonQuery();
+            _connection.Close();
+        }
+
+        public void AddNewspaperToDatabase(Newspaper newspaper)
+        {
+            _connection.Open();
+            SqlCommand command = new SqlCommand("INSERT INTO Newspapers (Number, Title, Genre, Year, Authors) VALUES (@Number, @Title, @Genre, @Year, @Authors)", _connection);
+            command.Parameters.AddWithValue("Number", newspaper.Number);
+            command.Parameters.AddWithValue("Title", newspaper.Title);
+            command.Parameters.AddWithValue("Genre", GetGenresString(newspaper));
+            command.Parameters.AddWithValue("Year", newspaper.PublicationYear);
+            command.Parameters.AddWithValue("Authors", GetAuthorsString(newspaper));
+            command.ExecuteNonQuery();
+            _connection.Close();
+        }
     }
 
-    }
+}
 

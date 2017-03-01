@@ -39,18 +39,18 @@ namespace LibraryApp
             return null;
         }
 
-        public static void AddNewAuthor(string name,Book book)
+        public static void AddNewAuthor(string name,Publication publication)
         {
-            _authors.Add(new Author(name, book));
+            _authors.Add(new Author(name, publication));
         }
 
-        public static void AddBookFromAuthor(string name,Book book)
+        public static void AddPublicationFromAuthor(string name,Publication publication)
         {
             foreach (Author author in _authors)
             {
                 if (author.Name == name)
                 {
-                    author.Books.Add(book);
+                    author.Publications.Add(publication);
                 }
             }
         }

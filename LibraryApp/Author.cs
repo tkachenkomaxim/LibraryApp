@@ -11,15 +11,15 @@ namespace LibraryApp
     {
         public string Name { get; set; }
         [XmlIgnore]
-        public List<Book> Books { get; set; }
+        public List<Publication> Publications { get; set; }
 
         public Author() { }
 
-        public Author(string name, Book book)
+        public Author(string name, Publication publication)
         {
             Name = name;
-            Books = new List<Book>();
-            Books.Add(book);
+            Publications = new List<Publication>();
+            Publications.Add(publication);
         }
     }
 }

@@ -7,12 +7,16 @@ namespace LibraryApp
    class Presenter
     {
         private MainForm form;
+        private LibraryForm form1;
+        private Library lib;
 
-        public Presenter()
+        public Presenter(Library library)
         {
+            lib = library;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             form = new MainForm();
+            form1 = new LibraryForm(library);
         }
      
        public void ShowLibrary(List<Publication> library)
@@ -24,7 +28,7 @@ namespace LibraryApp
                     Magazine magazine = (Magazine)item;
                     form.ShowAllLibraryBox.Text += string.Format("Magazine title: «{0}» \r\n ", magazine.Title);
                     form.ShowAllLibraryBox.Text += string.Format("Issue number: {0} \r\n", magazine.IssueNumber);
-                    form.ShowAllLibraryBox.Text += string.Format("Genre: {0} \r\n", magazine.Genre);
+                    form.ShowAllLibraryBox.Text += string.Format("Genre: {0} \r\n", lib.GetGenresString(magazine));
                     form.ShowAllLibraryBox.Text += string.Format("Year: {0} \r\n", magazine.PublicationYear);
                     form.ShowAllLibraryBox.Text += Environment.NewLine;
                 }
@@ -32,21 +36,8 @@ namespace LibraryApp
                 {
                     Book book = (Book)item;
                     form.ShowAllLibraryBox.Text += string.Format("Book title: «{0}» \r\n ", book.Title);
-                    if (book.Authors.Count == 1)
-                    {
-                        form.ShowAllLibraryBox.Text += string.Format("Author: {0} \r\n", book.Authors[0].Name);
-                    }
-                    if(book.Authors.Count > 1)
-                    {
-                        string authors = string.Format("Authors: {0}",book.Authors[0].Name);
-                        for (int i = 1; i < book.Authors.Count; i++)
-                        {
-                            authors += ", " + book.Authors[i].Name;
-                        }
-                        authors += "\r\n";
-                        form.ShowAllLibraryBox.Text += authors;
-                    }
-                    form.ShowAllLibraryBox.Text += string.Format("Genre: {0} \r\n", book.Genre);
+                    form.ShowAllLibraryBox.Text += string.Format("Author: {0} \r\n", lib.GetAuthorsString(book));
+                    form.ShowAllLibraryBox.Text += string.Format("Genre: {0} \r\n", lib.GetGenresString(book));
                     form.ShowAllLibraryBox.Text += string.Format("Year: {0} \r\n", book.PublicationYear);
                     form.ShowAllLibraryBox.Text += Environment.NewLine;
                 }
@@ -55,12 +46,12 @@ namespace LibraryApp
                     Newspaper newspaper = (Newspaper)item;
                     form.ShowAllLibraryBox.Text += string.Format("Newspaper title: «{0}» \r\n ", newspaper.Title);
                     form.ShowAllLibraryBox.Text += string.Format("Issue number: {0} \r\n", newspaper.Number);
-                    form.ShowAllLibraryBox.Text += string.Format("Genre: {0} \r\n", newspaper.Genre);
+                    form.ShowAllLibraryBox.Text += string.Format("Genre: {0} \r\n", lib.GetGenresString(newspaper));
                     form.ShowAllLibraryBox.Text += string.Format("Year: {0} \r\n", newspaper.PublicationYear);
                     form.ShowAllLibraryBox.Text += Environment.NewLine;
                 }
             }
-            Application.Run(form);
+            Application.Run(form1);
         }
     }
 }
