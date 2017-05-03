@@ -10,16 +10,22 @@ namespace LibraryApp
     public class Author
     {
         public string Name { get; set; }
+        public int Year { get; set; }
         [XmlIgnore]
         public List<Publication> Publications { get; set; }
 
         public Author() { }
 
-        public Author(string name, Publication publication)
+        public Author(string name, int year, Publication publication): this(name,year)
         {
-            Name = name;
             Publications = new List<Publication>();
             Publications.Add(publication);
+        }
+
+        public Author(string name, int year)
+        {
+            Name = name;
+            Year = year;
         }
     }
 }

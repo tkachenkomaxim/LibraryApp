@@ -91,7 +91,6 @@
             this.Controls.Add(this.EditMagazinebutton);
             this.Name = "EditMagazinesForm";
             this.Text = "Edit Magazines";
-            this.Load += new System.EventHandler(this.EditMagazinesForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.magazinesDataGridView)).EndInit();
             this.ResumeLayout(false);
 

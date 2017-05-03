@@ -91,7 +91,6 @@
             this.Controls.Add(this.deleteNewspaperbutton);
             this.Name = "EditNewspapersForm";
             this.Text = "Edit Newspapers";
-            this.Load += new System.EventHandler(this.EditNewspapersForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.newspapersDataGridView)).EndInit();
             this.ResumeLayout(false);
 

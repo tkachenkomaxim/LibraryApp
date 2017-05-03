@@ -37,16 +37,16 @@
             this.newNewspaperbutton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.editNewspapersbutton = new System.Windows.Forms.Button();
-            this.booksDataGridView = new System.Windows.Forms.DataGridView();
             this.magazinesDataGridView = new System.Windows.Forms.DataGridView();
             this.newspapersDataGridView = new System.Windows.Forms.DataGridView();
             this.searchButton = new System.Windows.Forms.Button();
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.backButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.booksDataGridView)).BeginInit();
+            this.booksDataGridView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.magazinesDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newspapersDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.booksDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // editBooksButton
@@ -140,22 +140,6 @@
             this.editNewspapersbutton.UseVisualStyleBackColor = true;
             this.editNewspapersbutton.Click += new System.EventHandler(this.editNewspapersbutton_Click);
             // 
-            // booksDataGridView
-            // 
-            this.booksDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.booksDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.booksDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.booksDataGridView.GridColor = System.Drawing.SystemColors.ActiveCaption;
-            this.booksDataGridView.Location = new System.Drawing.Point(12, 119);
-            this.booksDataGridView.Name = "booksDataGridView";
-            this.booksDataGridView.ReadOnly = true;
-            this.booksDataGridView.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.White;
-            this.booksDataGridView.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            this.booksDataGridView.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
-            this.booksDataGridView.RowTemplate.Height = 24;
-            this.booksDataGridView.Size = new System.Drawing.Size(1293, 249);
-            this.booksDataGridView.TabIndex = 12;
-            // 
             // magazinesDataGridView
             // 
             this.magazinesDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -221,19 +205,31 @@
             this.backButton.UseVisualStyleBackColor = true;
             this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
+            // booksDataGridView
+            // 
+            this.booksDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.booksDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.booksDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.booksDataGridView.GridColor = System.Drawing.SystemColors.ActiveCaption;
+            this.booksDataGridView.Location = new System.Drawing.Point(12, 119);
+            this.booksDataGridView.Name = "booksDataGridView";
+            this.booksDataGridView.RowTemplate.Height = 24;
+            this.booksDataGridView.Size = new System.Drawing.Size(1297, 252);
+            this.booksDataGridView.TabIndex = 19;
+            // 
             // LibraryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1321, 1013);
+            this.Controls.Add(this.booksDataGridView);
             this.Controls.Add(this.backButton);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.searchTextBox);
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.newspapersDataGridView);
             this.Controls.Add(this.magazinesDataGridView);
-            this.Controls.Add(this.booksDataGridView);
             this.Controls.Add(this.editNewspapersbutton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.newNewspaperbutton);
@@ -245,10 +241,9 @@
             this.Controls.Add(this.editBooksButton);
             this.Name = "LibraryForm";
             this.Text = "Library Application";
-            this.Load += new System.EventHandler(this.LibraryForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.booksDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.magazinesDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.newspapersDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.booksDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -264,12 +259,12 @@
         private System.Windows.Forms.Button newNewspaperbutton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button editNewspapersbutton;
-        private System.Windows.Forms.DataGridView booksDataGridView;
         private System.Windows.Forms.DataGridView magazinesDataGridView;
         private System.Windows.Forms.DataGridView newspapersDataGridView;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button backButton;
+        private System.Windows.Forms.DataGridView booksDataGridView;
     }
 }

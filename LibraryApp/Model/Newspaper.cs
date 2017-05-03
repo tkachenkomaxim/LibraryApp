@@ -12,7 +12,7 @@ namespace LibraryApp
 
         public Newspaper() { }
 
-        public Newspaper(string title, int number, List<Genre> genres, int publicationYear, params string[] authors) : base(title, genres, publicationYear,authors)
+        public Newspaper(string title, int number, List<Genre> genres, int publicationYear, params Author[] authors) : base(title, genres, publicationYear,authors)
         {
             Number = number;
         }

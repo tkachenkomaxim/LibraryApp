@@ -15,23 +15,23 @@ namespace LibraryApp
 
         public Publication() { }
 
-        protected Publication(string title, List<Genre> genres, int publicationYear, params string[] authors)
+        protected Publication(string title, List<Genre> genres, int publicationYear, params Author[] authors)
         {
             Title = title;
             Genres = genres;
             PublicationYear = publicationYear;
             Authors = new List<Author>();
-            foreach (string name in authors)
+            foreach (var author in authors)
             {
-                if (ListOfAuthors.Contains(name))
+                if (ListOfAuthors.Contains(author.Name,author.Year))
                 {
-                    Authors.Add(ListOfAuthors.GetAuthor(name));
-                    ListOfAuthors.AddPublicationFromAuthor(name, this);
+                    Authors.Add(ListOfAuthors.GetAuthor(author.Name, author.Year));
+                    ListOfAuthors.AddPublicationFromAuthor(author.Name, author.Year, this);
                 }
-                if (!ListOfAuthors.Contains(name))
+                if (!ListOfAuthors.Contains(author.Name, author.Year))
                 {
-                    ListOfAuthors.AddNewAuthor(name, this);
-                    Authors.Add(ListOfAuthors.GetAuthor(name));
+                    ListOfAuthors.AddNewAuthor(author.Name, author.Year, this);
+                    Authors.Add(ListOfAuthors.GetAuthor(author.Name, author.Year));
                 }
             }
         }

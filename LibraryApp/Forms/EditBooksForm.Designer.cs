@@ -80,7 +80,7 @@
             this.beckButton.TabIndex = 5;
             this.beckButton.Text = "⬅ Back";
             this.beckButton.UseVisualStyleBackColor = true;
-            this.beckButton.Click += new System.EventHandler(this.beckButton_Click);
+            this.beckButton.Click += new System.EventHandler(this.backButton_Click);
             // 
             // EditBooksForm
             // 
@@ -93,7 +93,6 @@
             this.Controls.Add(this.deleteButton);
             this.Name = "EditBooksForm";
             this.Text = "Edit Books";
-            this.Load += new System.EventHandler(this.EditBooksForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.booksDataGridView)).EndInit();
             this.ResumeLayout(false);
 

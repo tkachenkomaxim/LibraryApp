@@ -12,139 +12,189 @@ namespace LibraryApp
 {
     public class LibraryDataManager
     {
-        private Type publicationType;
-        private Library library;
-        private BindingSource bindingSource;
-        private SqlDataAdapter dataAdapter;
-        private DataTable table;
+        private Type _publicationType;
+        private Library _library;
+        private BindingSource _bindingSource;
+        private SqlDataAdapter _dataAdapter;
+        private DataTable _table;
+        
 
-        public LibraryDataManager(Type publicationType, Library library, BindingSource bindingSource, SqlDataAdapter dataAdapter, DataTable table)
+        public LibraryDataManager(Type publicationType, Library library)
         {
-            this.library = library;
-            this.publicationType = publicationType;
-            this.bindingSource = bindingSource;
-            this.dataAdapter = dataAdapter;
-            this.table = table;
+            _library = library;
+            _publicationType = publicationType;
+            _bindingSource = new BindingSource();
+            _dataAdapter = new SqlDataAdapter();
+            _table = new DataTable();
+        }
+
+        public void Update()
+        {
+            _dataAdapter.Update((DataTable)_bindingSource.DataSource);
+        }
+
+        public void Delete(int rowIndex)
+        {
+            _table.Rows[rowIndex].Delete();
+            _dataAdapter.Update((DataTable)_bindingSource.DataSource);
         }
 
         public void SearchByAuthor(string authorName)
         {
             SqlCommand command = null;
-            table.Clear();
-            if (publicationType == typeof(Book))
+            _table.Clear();
+            if (_publicationType == typeof(Book))
             {
-                string commandText = string.Format("SELECT * FROM Books WHERE Authors LIKE '%{0}%'",authorName);
-                command = new SqlCommand(commandText, library._connection);
+                string commandText = string.Format(@"select books.id,dbo.GROUP_CONCAT_D(distinct authors.name,', ') as Authors ,
+                                                     books.title,books.year, dbo.GROUP_CONCAT_D(distinct genres.genre,', ') as Genre 
+                                                     from books left join m2m_books_genres on books.id = m2m_books_genres.book_id 
+                                                     left join genres on m2m_books_genres.genre_id = genres.id  
+                                                     left join m2m_books_authors on books.id = m2m_books_authors.book_id  
+                                                     left join authors on authors.id = m2m_books_authors.author_id 
+                                                     WHERE authors.name LIKE '%{0}%'
+                                                     GROUP BY books.id, books.title,books.year;", authorName);
+                command = new SqlCommand(commandText, _library.connection);
             }
 
-            if (publicationType == typeof(Magazine))
+            if (_publicationType == typeof(Magazine))
             {
-                string commandText = string.Format("SELECT * FROM Magazines WHERE Authors LIKE '%{0}%'", authorName);
-                command = new SqlCommand(commandText, library._connection);
+                string commandText = string.Format(@"select magazines.id, dbo.GROUP_CONCAT_D(distinct authors.name,', ') as Authors ,
+                                                     magazines.title, magazines.number, magazines.year, dbo.GROUP_CONCAT_D(distinct genres.genre,', ') as Genre
+                                                     from magazines left join m2m_magazines_genres on magazines.id = m2m_magazines_genres.magazine_id 
+                                                     left join genres on m2m_magazines_genres.genre_id = genres.id 
+                                                     left join m2m_magazines_authors on magazines.id = m2m_magazines_authors.magazine_id 
+                                                     left join authors on authors.id = m2m_magazines_authors.author_id 
+                                                     WHERE authors.name LIKE '%{0}%'
+                                                     GROUP BY magazines.id, magazines.title,magazines.number, magazines.year", authorName);
+                command = new SqlCommand(commandText, _library.connection);
             }
 
-            if (publicationType == typeof(Newspaper))
+            if (_publicationType == typeof(Newspaper))
             {
-                string commandText = string.Format("SELECT * FROM Newspapers WHERE Authors LIKE '%{0}%'", authorName);
-                command = new SqlCommand(commandText, library._connection);
+                string commandText = string.Format(@"select newspapers.id, dbo.GROUP_CONCAT_D(distinct authors.name,', ') as Authors ,
+                                                     newspapers.title, newspapers.number, newspapers.year, dbo.GROUP_CONCAT_D(distinct genres.genre,', ') as Genre
+                                                     from newspapers left join m2m_newspapers_genres on newspapers.id = m2m_newspapers_genres.newspaper_id 
+                                                     left join genres on m2m_newspapers_genres.genre_id = genres.id 
+                                                     left join m2m_newspapers_authors on newspapers.id = m2m_newspapers_authors.newspaper_id 
+                                                     left join authors on authors.id = m2m_newspapers_authors.author_id 
+                                                     WHERE authors.name LIKE '%{0}%'
+                                                     GROUP BY newspapers.id, newspapers.title, newspapers.number, newspapers.year", authorName);
+                command = new SqlCommand(commandText, _library.connection);
             }
 
-            dataAdapter = new SqlDataAdapter(command);
-            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
-            table.Locale = CultureInfo.InvariantCulture;
-            dataAdapter.Fill(table);
-            bindingSource.DataSource = table;
+            _dataAdapter = new SqlDataAdapter(command);
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(_dataAdapter);
+            _table.Locale = CultureInfo.InvariantCulture;
+            _dataAdapter.Fill(_table);
+            _bindingSource.DataSource = _table;
         }
 
-        public void GetData()
+        public BindingSource GetData()
         {
-            table.Clear();
+            _table.Clear();
             string selectCommand = null;
-            if (publicationType == typeof(Book))
+            if (_publicationType == typeof(Book))
             {
-                selectCommand = "SELECT * FROM Books";
+                selectCommand = @"select books.id,dbo.GROUP_CONCAT_D(distinct authors.name,', ') as Authors ,
+                                  books.title,books.year, dbo.GROUP_CONCAT_D(distinct genres.genre,', ') as Genre
+                                  from books left join m2m_books_genres on books.id = m2m_books_genres.book_id 
+                                  left join genres on m2m_books_genres.genre_id = genres.id 
+                                  left join m2m_books_authors on books.id = m2m_books_authors.book_id 
+                                  left join authors on authors.id = m2m_books_authors.author_id 
+                                  GROUP BY books.id, books.title,books.year";
             }
-            if (publicationType == typeof(Magazine))
+            if (_publicationType == typeof(Magazine))
             {
-                selectCommand = "SELECT * FROM Magazines";
+                selectCommand = @"select magazines.id, dbo.GROUP_CONCAT_D(distinct authors.name,', ') as Authors ,
+                                  magazines.title, magazines.number, magazines.year, dbo.GROUP_CONCAT_D(distinct genres.genre, ', ') as Genre
+                                  from magazines left join m2m_magazines_genres on magazines.id = m2m_magazines_genres.magazine_id
+                                  left join genres on m2m_magazines_genres.genre_id = genres.id
+                                  left join m2m_magazines_authors on magazines.id = m2m_magazines_authors.magazine_id
+                                  left join authors on authors.id = m2m_magazines_authors.author_id
+                                  GROUP BY magazines.id, magazines.title,magazines.number, magazines.year";
             }
-            if (publicationType == typeof(Newspaper))
+            if (_publicationType == typeof(Newspaper))
             {
-                selectCommand = "SELECT * FROM Newspapers";
+                selectCommand = @"select newspapers.id, dbo.GROUP_CONCAT_D(distinct authors.name,', ') as Authors ,
+                                  newspapers.title, newspapers.number, newspapers.year, dbo.GROUP_CONCAT_D(distinct genres.genre,', ') as Genre
+                                  from newspapers left join m2m_newspapers_genres on newspapers.id = m2m_newspapers_genres.newspaper_id 
+                                  left join genres on m2m_newspapers_genres.genre_id = genres.id 
+                                  left join m2m_newspapers_authors on newspapers.id = m2m_newspapers_authors.newspaper_id 
+                                  left join authors on authors.id = m2m_newspapers_authors.author_id 
+                                  GROUP BY newspapers.id, newspapers.title, newspapers.number, newspapers.year";
             }
-            string connectionString = library._connection.ConnectionString;
-            dataAdapter = new SqlDataAdapter(selectCommand, connectionString);
-            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
-            table.Locale = CultureInfo.InvariantCulture;
-            dataAdapter.Fill(table);
-            bindingSource.DataSource = table;
+            string connectionString = _library.connection.ConnectionString;
+            _dataAdapter = new SqlDataAdapter(selectCommand, connectionString);
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(_dataAdapter);
+            _table.Locale = CultureInfo.InvariantCulture;
+            _dataAdapter.Fill(_table);
+            _bindingSource.DataSource = _table;
+            return _bindingSource;
         }
 
         public void UpdateData()
         {
-            SqlCommand command = new SqlCommand();
-            if (publicationType == typeof(Book))
+            SqlCommand command = null;
+            if (_publicationType == typeof(Book))
             {
                 command = new SqlCommand(
-                "UPDATE Books SET Authors = @Authors, Title = @Title, Genre = @Genre, Year = @Year WHERE ID = @oldID", library._connection);
+                "UPDATE books SET title = @title, year = @year WHERE ID = @oldID", _library.connection);
 
-                command.Parameters.Add("@Authors", SqlDbType.NVarChar, 50, "Authors");
-                command.Parameters.Add("@Title", SqlDbType.NVarChar, 50, "Title");
-                command.Parameters.Add("@Genre", SqlDbType.NVarChar, 50, "Genre");
-                command.Parameters.Add("@Year", SqlDbType.Int, 5, "Year");
+                command.Parameters.Add("@title", SqlDbType.NVarChar, 50, "title");
+                command.Parameters.Add("@year", SqlDbType.Int, 5, "year");
             }
 
-            if(publicationType == typeof(Magazine))
+            if(_publicationType == typeof(Magazine))
             {
-
                 command = new SqlCommand(
-                "UPDATE Magazines SET IssueNumber = @IssueNumber, Title = @Title, Genre = @Genre, Year = @Year, Authors = @Authors WHERE ID = @oldID", library._connection);
+                "UPDATE magazines SET number = @number, title = @title, year = @year WHERE ID = @oldID", _library.connection);
 
-                command.Parameters.Add("@IssueNumber", SqlDbType.Int, 5, "IssueNumber");
-                command.Parameters.Add("@Title", SqlDbType.NVarChar, 50, "Title");
-                command.Parameters.Add("@Genre", SqlDbType.NVarChar, 50, "Genre");
-                command.Parameters.Add("@Year", SqlDbType.Int, 5, "Year");
-                command.Parameters.Add("@Authors", SqlDbType.NVarChar, 50, "Authors");
+                command.Parameters.Add("@number", SqlDbType.Int, 5, "number");
+                command.Parameters.Add("@title", SqlDbType.NVarChar, 50, "title");
+                command.Parameters.Add("@year", SqlDbType.Int, 5, "year");
             }
          
-            if(publicationType == typeof(Newspaper))
+            if(_publicationType == typeof(Newspaper))
             {
                 command = new SqlCommand(
-                "UPDATE Magazines SET Number = @Number, Title = @Title, Genre = @Genre, Year = @Year, Authors = @Authors WHERE ID = @oldID", library._connection);
+                "UPDATE newspapers SET number = @number, title = @title, year = @year WHERE ID = @oldID", _library.connection);
 
-                command.Parameters.Add("@Number", SqlDbType.Int, 5, "Number");
-                command.Parameters.Add("@Title", SqlDbType.NVarChar, 50, "Title");
-                command.Parameters.Add("@Genre", SqlDbType.NVarChar, 50, "Genre");
-                command.Parameters.Add("@Year", SqlDbType.Int, 5, "Year");
-                command.Parameters.Add("@Authors", SqlDbType.NVarChar, 50, "Authors");
+                command.Parameters.Add("@number", SqlDbType.Int, 5, "number");
+                command.Parameters.Add("@title", SqlDbType.NVarChar, 50, "title");
+                command.Parameters.Add("@year", SqlDbType.Int, 5, "year");
             }
             SqlParameter parameter = command.Parameters.Add("@oldID", SqlDbType.Int, 5, "ID");
             parameter.SourceVersion = DataRowVersion.Original;
-            dataAdapter.UpdateCommand = command;
+            _dataAdapter.UpdateCommand = command;
         }
 
         public void DeleteData()
         {
-            SqlCommand command = new SqlCommand();
-            if (publicationType == typeof(Book))
+            SqlCommand command = null;
+            if (_publicationType == typeof(Book))
             {
-                command = new SqlCommand("DELETE FROM Books WHERE ID = @ID", library._connection);
+                command = new SqlCommand(@"DELETE FROM m2m_books_authors WHERE book_id = @ID; 
+                                           DELETE FROM m2m_books_genres WHERE book_id = @ID;
+                                           DELETE FROM books WHERE ID = @ID; ", _library.connection);
             }
 
-            if (publicationType == typeof(Magazine))
+            if (_publicationType == typeof(Magazine))
             {
-                command = new SqlCommand("DELETE FROM Magazines WHERE ID = @ID", library._connection);
+                command = new SqlCommand(@"DELETE FROM m2m_magazines_authors WHERE magazine_id = @ID; 
+                                           DELETE FROM m2m_magazines_genres WHERE magazine_id = @ID;
+                                           DELETE FROM magazines WHERE ID = @ID", _library.connection);
             }
 
-            if (publicationType == typeof(Newspaper))
+            if (_publicationType == typeof(Newspaper))
             {
-                command = new SqlCommand("DELETE FROM Newspapers WHERE ID = @ID", library._connection);
+                command = new SqlCommand(@"DELETE FROM m2m_newspapers_authors WHERE newspaper_id = @ID; 
+                                           DELETE FROM m2m_newspapers_genres WHERE newspaper_id = @ID;
+                                           DELETE FROM newspapers WHERE ID = @ID", _library.connection);
             }
 
             SqlParameter parameter = command.Parameters.Add("@ID", SqlDbType.NChar, 5, "ID");
             parameter.SourceVersion = DataRowVersion.Original;
-            dataAdapter.DeleteCommand = command;
-
+            _dataAdapter.DeleteCommand = command;
         }
     }
 }

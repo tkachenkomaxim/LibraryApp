@@ -1,6 +1,6 @@
 ﻿namespace LibraryApp
 {
-    partial class NewMagazineForm
+    partial class NewBookForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.authorTextBox = new System.Windows.Forms.TextBox();
+            this.authorTextBox1 = new System.Windows.Forms.TextBox();
             this.titleTextBox = new System.Windows.Forms.TextBox();
             this.yearTextBox = new System.Windows.Forms.TextBox();
             this.genreGroupBox = new System.Windows.Forms.GroupBox();
@@ -56,27 +56,37 @@
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.addNewMagazinebutton = new System.Windows.Forms.Button();
+            this.addNewBookbutton = new System.Windows.Forms.Button();
+            this.authorTextBox2 = new System.Windows.Forms.TextBox();
+            this.authorTextBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.issueNumbertextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.authorTextBox1Year = new System.Windows.Forms.TextBox();
+            this.authorTextBox2Year = new System.Windows.Forms.TextBox();
+            this.authorTextBox3Year = new System.Windows.Forms.TextBox();
+            this.authorsGroupBox = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.genreGroupBox.SuspendLayout();
+            this.authorsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(48, 254);
+            this.label1.Location = new System.Drawing.Point(19, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 20);
+            this.label1.Size = new System.Drawing.Size(77, 20);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Authors:";
+            this.label1.Text = "Author 1:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(48, 72);
+            this.label2.Location = new System.Drawing.Point(48, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 20);
             this.label2.TabIndex = 1;
@@ -86,34 +96,34 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(48, 189);
+            this.label3.Location = new System.Drawing.Point(48, 117);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(142, 20);
             this.label3.TabIndex = 2;
             this.label3.Text = "Publications year:";
             // 
-            // authorTextBox
+            // authorTextBox1
             // 
-            this.authorTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.authorTextBox.Location = new System.Drawing.Point(224, 251);
-            this.authorTextBox.Name = "authorTextBox";
-            this.authorTextBox.Size = new System.Drawing.Size(332, 27);
-            this.authorTextBox.TabIndex = 4;
+            this.authorTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.authorTextBox1.Location = new System.Drawing.Point(172, 25);
+            this.authorTextBox1.Name = "authorTextBox1";
+            this.authorTextBox1.Size = new System.Drawing.Size(184, 27);
+            this.authorTextBox1.TabIndex = 4;
             // 
             // titleTextBox
             // 
             this.titleTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.titleTextBox.Location = new System.Drawing.Point(224, 69);
+            this.titleTextBox.Location = new System.Drawing.Point(224, 66);
             this.titleTextBox.Name = "titleTextBox";
-            this.titleTextBox.Size = new System.Drawing.Size(332, 27);
+            this.titleTextBox.Size = new System.Drawing.Size(451, 27);
             this.titleTextBox.TabIndex = 5;
             // 
             // yearTextBox
             // 
             this.yearTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.yearTextBox.Location = new System.Drawing.Point(224, 186);
+            this.yearTextBox.Location = new System.Drawing.Point(224, 114);
             this.yearTextBox.Name = "yearTextBox";
-            this.yearTextBox.Size = new System.Drawing.Size(100, 27);
+            this.yearTextBox.Size = new System.Drawing.Size(111, 27);
             this.yearTextBox.TabIndex = 6;
             // 
             // genreGroupBox
@@ -140,9 +150,9 @@
             this.genreGroupBox.Controls.Add(this.checkBox2);
             this.genreGroupBox.Controls.Add(this.checkBox1);
             this.genreGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.genreGroupBox.Location = new System.Drawing.Point(619, 49);
+            this.genreGroupBox.Location = new System.Drawing.Point(749, 49);
             this.genreGroupBox.Name = "genreGroupBox";
-            this.genreGroupBox.Size = new System.Drawing.Size(343, 338);
+            this.genreGroupBox.Size = new System.Drawing.Size(323, 338);
             this.genreGroupBox.TabIndex = 8;
             this.genreGroupBox.TabStop = false;
             this.genreGroupBox.Text = "Genre";
@@ -360,54 +370,144 @@
             this.checkBox1.Text = "Fiction";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // addNewMagazinebutton
+            // addNewBookbutton
             // 
-            this.addNewMagazinebutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addNewMagazinebutton.Location = new System.Drawing.Point(224, 332);
-            this.addNewMagazinebutton.Name = "addNewMagazinebutton";
-            this.addNewMagazinebutton.Size = new System.Drawing.Size(184, 48);
-            this.addNewMagazinebutton.TabIndex = 9;
-            this.addNewMagazinebutton.Text = "Add magazine";
-            this.addNewMagazinebutton.UseVisualStyleBackColor = true;
-            this.addNewMagazinebutton.Click += new System.EventHandler(this.button1_Click);
+            this.addNewBookbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.addNewBookbutton.Location = new System.Drawing.Point(491, 356);
+            this.addNewBookbutton.Name = "addNewBookbutton";
+            this.addNewBookbutton.Size = new System.Drawing.Size(184, 48);
+            this.addNewBookbutton.TabIndex = 9;
+            this.addNewBookbutton.Text = "Add book";
+            this.addNewBookbutton.UseVisualStyleBackColor = true;
+            this.addNewBookbutton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // authorTextBox2
+            // 
+            this.authorTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.authorTextBox2.Location = new System.Drawing.Point(172, 64);
+            this.authorTextBox2.Name = "authorTextBox2";
+            this.authorTextBox2.Size = new System.Drawing.Size(184, 27);
+            this.authorTextBox2.TabIndex = 10;
+            // 
+            // authorTextBox3
+            // 
+            this.authorTextBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.authorTextBox3.Location = new System.Drawing.Point(172, 109);
+            this.authorTextBox3.Name = "authorTextBox3";
+            this.authorTextBox3.Size = new System.Drawing.Size(184, 27);
+            this.authorTextBox3.TabIndex = 11;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(48, 128);
+            this.label4.Location = new System.Drawing.Point(19, 67);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(115, 20);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Issue number:";
+            this.label4.Size = new System.Drawing.Size(77, 20);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Author 2:";
             // 
-            // issueNumbertextBox
+            // label5
             // 
-            this.issueNumbertextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.issueNumbertextBox.Location = new System.Drawing.Point(224, 125);
-            this.issueNumbertextBox.Name = "issueNumbertextBox";
-            this.issueNumbertextBox.Size = new System.Drawing.Size(100, 27);
-            this.issueNumbertextBox.TabIndex = 11;
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(19, 112);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 20);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Author 3:";
             // 
-            // NewMagazineForm
+            // authorTextBox1Year
+            // 
+            this.authorTextBox1Year.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.authorTextBox1Year.Location = new System.Drawing.Point(484, 25);
+            this.authorTextBox1Year.Name = "authorTextBox1Year";
+            this.authorTextBox1Year.Size = new System.Drawing.Size(116, 27);
+            this.authorTextBox1Year.TabIndex = 14;
+            // 
+            // authorTextBox2Year
+            // 
+            this.authorTextBox2Year.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.authorTextBox2Year.Location = new System.Drawing.Point(484, 64);
+            this.authorTextBox2Year.Name = "authorTextBox2Year";
+            this.authorTextBox2Year.Size = new System.Drawing.Size(116, 27);
+            this.authorTextBox2Year.TabIndex = 15;
+            // 
+            // authorTextBox3Year
+            // 
+            this.authorTextBox3Year.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.authorTextBox3Year.Location = new System.Drawing.Point(484, 109);
+            this.authorTextBox3Year.Name = "authorTextBox3Year";
+            this.authorTextBox3Year.Size = new System.Drawing.Size(116, 27);
+            this.authorTextBox3Year.TabIndex = 16;
+            // 
+            // authorsGroupBox
+            // 
+            this.authorsGroupBox.Controls.Add(this.label8);
+            this.authorsGroupBox.Controls.Add(this.label7);
+            this.authorsGroupBox.Controls.Add(this.label6);
+            this.authorsGroupBox.Controls.Add(this.authorTextBox1);
+            this.authorsGroupBox.Controls.Add(this.label5);
+            this.authorsGroupBox.Controls.Add(this.authorTextBox3Year);
+            this.authorsGroupBox.Controls.Add(this.label4);
+            this.authorsGroupBox.Controls.Add(this.authorTextBox2);
+            this.authorsGroupBox.Controls.Add(this.authorTextBox2Year);
+            this.authorsGroupBox.Controls.Add(this.authorTextBox3);
+            this.authorsGroupBox.Controls.Add(this.authorTextBox1Year);
+            this.authorsGroupBox.Controls.Add(this.label1);
+            this.authorsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.authorsGroupBox.Location = new System.Drawing.Point(52, 173);
+            this.authorsGroupBox.Name = "authorsGroupBox";
+            this.authorsGroupBox.Size = new System.Drawing.Size(623, 160);
+            this.authorsGroupBox.TabIndex = 17;
+            this.authorsGroupBox.TabStop = false;
+            this.authorsGroupBox.Text = "Authors list";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(400, 116);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(48, 20);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Year:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(400, 73);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(48, 20);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Year:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(400, 28);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(48, 20);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Year:";
+            // 
+            // NewBookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(995, 427);
-            this.Controls.Add(this.issueNumbertextBox);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.addNewMagazinebutton);
+            this.ClientSize = new System.Drawing.Size(1103, 432);
+            this.Controls.Add(this.authorsGroupBox);
+            this.Controls.Add(this.addNewBookbutton);
             this.Controls.Add(this.genreGroupBox);
             this.Controls.Add(this.yearTextBox);
             this.Controls.Add(this.titleTextBox);
-            this.Controls.Add(this.authorTextBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Name = "NewMagazineForm";
-            this.Text = "New magazine";
+            this.Name = "NewBookForm";
+            this.Text = "New book";
             this.genreGroupBox.ResumeLayout(false);
             this.genreGroupBox.PerformLayout();
+            this.authorsGroupBox.ResumeLayout(false);
+            this.authorsGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -418,7 +518,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox authorTextBox;
+        private System.Windows.Forms.TextBox authorTextBox1;
         private System.Windows.Forms.TextBox titleTextBox;
         private System.Windows.Forms.TextBox yearTextBox;
         private System.Windows.Forms.GroupBox genreGroupBox;
@@ -443,8 +543,17 @@
         private System.Windows.Forms.CheckBox checkBox17;
         private System.Windows.Forms.CheckBox checkBox21;
         private System.Windows.Forms.CheckBox checkBox20;
-        private System.Windows.Forms.Button addNewMagazinebutton;
+        private System.Windows.Forms.Button addNewBookbutton;
+        private System.Windows.Forms.TextBox authorTextBox2;
+        private System.Windows.Forms.TextBox authorTextBox3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox issueNumbertextBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox authorTextBox1Year;
+        private System.Windows.Forms.TextBox authorTextBox2Year;
+        private System.Windows.Forms.TextBox authorTextBox3Year;
+        private System.Windows.Forms.GroupBox authorsGroupBox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
     }
 }

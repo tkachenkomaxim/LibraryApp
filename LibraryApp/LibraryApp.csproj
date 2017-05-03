@@ -64,63 +64,66 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Author.cs" />
-    <Compile Include="Book.cs" />
-    <Compile Include="EditBooksForm.cs">
+    <Compile Include="Abstract\IAddBookFormView.cs" />
+    <Compile Include="Abstract\IAddMagazineView.cs" />
+    <Compile Include="Abstract\IAddNewspaperView.cs" />
+    <Compile Include="Abstract\IEditFormView.cs" />
+    <Compile Include="Abstract\ILibraryFormView.cs" />
+    <Compile Include="Presenters\AddBookPresenter.cs" />
+    <Compile Include="Presenters\AddMagazinePresenter.cs" />
+    <Compile Include="Presenters\AddNewspaperPresenter.cs" />
+    <Compile Include="Presenters\EditFormPresenter.cs" />
+    <Compile Include="Presenters\LibraryFormPresenter.cs" />
+    <Compile Include="Model\Author.cs" />
+    <Compile Include="Model\Book.cs" />
+    <Compile Include="Forms\EditBooksForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditBooksForm.Designer.cs">
+    <Compile Include="Forms\EditBooksForm.Designer.cs">
       <DependentUpon>EditBooksForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditMagazinesForm.cs">
+    <Compile Include="Forms\EditMagazinesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditMagazinesForm.Designer.cs">
+    <Compile Include="Forms\EditMagazinesForm.Designer.cs">
       <DependentUpon>EditMagazinesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EditNewspapersForm.cs">
+    <Compile Include="Forms\EditNewspapersForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditNewspapersForm.Designer.cs">
+    <Compile Include="Forms\EditNewspapersForm.Designer.cs">
       <DependentUpon>EditNewspapersForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Genre.cs" />
+    <Compile Include="Model\Genre.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="LibraryDataManager.cs" />
-    <Compile Include="LibraryForm.cs">
+    <Compile Include="Forms\LibraryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LibraryForm.Designer.cs">
+    <Compile Include="Forms\LibraryForm.Designer.cs">
       <DependentUpon>LibraryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListOfAuthors.cs" />
-    <Compile Include="Magazine.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Model\ListOfAuthors.cs" />
+    <Compile Include="Model\Magazine.cs" />
+    <Compile Include="Forms\NewNewspaperForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NewNewspaperForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NewNewspaperForm.Designer.cs">
+    <Compile Include="Forms\NewNewspaperForm.Designer.cs">
       <DependentUpon>NewNewspaperForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewMagazineForm.cs">
+    <Compile Include="Forms\NewMagazineForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewMagazineForm.Designer.cs">
+    <Compile Include="Forms\NewMagazineForm.Designer.cs">
       <DependentUpon>NewMagazineForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewBookForm.cs">
+    <Compile Include="Forms\NewBookForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewBookForm.Designer.cs">
+    <Compile Include="Forms\NewBookForm.Designer.cs">
       <DependentUpon>NewBookForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Newspaper.cs" />
-    <Compile Include="Presenter.cs" />
+    <Compile Include="Model\Newspaper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -128,7 +131,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Publication.cs" />
+    <Compile Include="Model\Publication.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -138,28 +141,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EditBooksForm.resx">
+    <EmbeddedResource Include="Forms\EditBooksForm.resx">
       <DependentUpon>EditBooksForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditMagazinesForm.resx">
+    <EmbeddedResource Include="Forms\EditMagazinesForm.resx">
       <DependentUpon>EditMagazinesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditNewspapersForm.resx">
+    <EmbeddedResource Include="Forms\EditNewspapersForm.resx">
       <DependentUpon>EditNewspapersForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LibraryForm.resx">
+    <EmbeddedResource Include="Forms\LibraryForm.resx">
       <DependentUpon>LibraryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewNewspaperForm.resx">
+    <EmbeddedResource Include="Forms\NewNewspaperForm.resx">
       <DependentUpon>NewNewspaperForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewMagazineForm.resx">
+    <EmbeddedResource Include="Forms\NewMagazineForm.resx">
       <DependentUpon>NewMagazineForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewBookForm.resx">
+    <EmbeddedResource Include="Forms\NewBookForm.resx">
       <DependentUpon>NewBookForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -177,7 +177,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Forms\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
